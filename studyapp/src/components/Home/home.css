@@ -1,11 +1,11 @@
 .container{
-    height: 100vh;
+    /* height: 100vh; */
     padding: 3rem;
     box-sizing: border-box;
 }
 body{
     background: #fff;
-    /* overflow-x: hidden; */
+    overflow-x: hidden;
 }
 .vector-graphics{
     filter: drop-shadow(0 30px 35px #65849b);

@@ -59,7 +59,8 @@ const Home = () => {
         disablePictureInPicture={true}
         disableRemotePlayback={true}
         ></video>
-    </div>
+        
+    </div> 
   </section>
 };
 
