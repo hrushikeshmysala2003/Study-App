@@ -8,13 +8,9 @@ import {SiCoursera, SiUdemy} from "react-icons/si"
 import {DiAws} from "react-icons/di"
 import introVideo from "../../assets/videos/intro.mp4"
 const Home = () => {
-    const { colorMode, toggleColorMode } = useColorMode()
   return <section className='home' >
     
     <div className="container">
-    <Button  onClick={toggleColorMode} alignSelf={"flex-end"}>
-        Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
-      </Button>
         <Stack 
         className='stack'
         direction={["column", "row"]}
@@ -23,9 +19,9 @@ const Home = () => {
         alignItems={"center"}
         spacing={['16', '56']}
         >
-            <VStack marginTop={10} width={'full'} alignItems={["center", "flex-end"]}>
+            <VStack marginTop={10} width={'full'} spacing={"5"} alignItems={["center", "flex-end"]}>
                 <Heading children="LEARN MORE FROM EXPERTS" size={'2xl'} />
-                <Text children="Find Valuable content At Reasonable Price" />
+                <Text fontSize={"2xl"} fontFamily="cursive" textAlign={["center", "left"]} children="Find Valuable content At Reasonable Price" />
                 <Link to="/courses" >
                     <Button size={"lg"} color={"aqua"} >
                         Explore Now
