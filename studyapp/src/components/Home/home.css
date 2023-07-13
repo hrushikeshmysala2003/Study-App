@@ -1,0 +1,67 @@
+.container{
+    height: 100vh;
+    padding: 3rem;
+    box-sizing: border-box;
+}
+body{
+    background: #fff;
+    /* overflow-x: hidden; */
+}
+.vector-graphics{
+    filter: drop-shadow(0 30px 35px #65849b);
+    animation: vectorAnimation 1s infinite ease-in-out alternate;
+}
+
+@media screen and (max-width: 600px) {
+    .container2 video{
+        margin: 10px;
+    }
+    .container2{
+        /* height: 50vh; */
+        width: 100%;
+        
+        display: initial;
+    }
+    html{
+        font-size: 80%;
+    }
+    
+    
+}
+@media (max-width: 336px) {
+    
+    .container{
+        padding: 1rem;
+
+    }
+    
+}
+
+@keyframes vectorAnimation {
+    to{
+        transform: translateY(-20px);
+    }
+}
+
+.brandsBanner > svg{
+    font-size: 3rem;
+    transition: color 0.5s;
+
+}
+.brandsBanner > svg:hover{
+    color: rgb(113, 185, 195);
+}
+
+.container2{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container2 video{
+    border: 1px solid black;
+    width: 70%;
+    margin: 2rem;
+    box-shadow: 0 0 20px black;
+}
