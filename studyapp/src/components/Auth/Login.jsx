@@ -19,7 +19,7 @@ const Login = () => {
                 <FormLabel htmlFor="password" children="Password" />
                 <Input required id='password'  placeholder="Enter your password" value={password}  onChange={ e => setPassword(e.target.value) } focusBorderColor='cyan' />
             </Box>
-            <Box my={"4"} >
+            <Box textAlign={"right"} my={"4"} >
                 <Link to={"/forgetpassword"} >
                     <Button fontSize={"sm"} variant={"link"} >Forget Password?</Button>
                 </Link>
