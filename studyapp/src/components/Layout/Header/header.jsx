@@ -16,7 +16,8 @@ const Header = () => {
     }
     const { isOpen, onOpen, onClose } = useDisclosure();
     const logoutHandler = () => {
-        console.log("Logout")
+        console.log("Logout");
+        onClose();
     }
   return (
     <div>
@@ -36,23 +37,23 @@ const Header = () => {
 
                 <VStack spacing={"4"} alignItems={"flex-start"} >
 
-                    <Link to="/" >
+                    <Link to="/" onClick={onClose} >
                         <Button variant={"ghost"}>Home</Button>
                     </Link>
 
-                    <Link to="/courses" >
+                    <Link to="/courses" onClick={onClose}  >
                         <Button variant={"ghost"}>Browse All Courses</Button>
                     </Link>
 
-                    <Link to="/request" >
+                    <Link to="/request" onClick={onClose}  >
                         <Button variant={"ghost"}>Request a course</Button>
                     </Link>
 
-                    <Link to="/contact" >
+                    <Link to="/contact" onClick={onClose}  >
                         <Button variant={"ghost"}>Contact Us</Button>
                     </Link>
 
-                    <Link to="/about" >
+                    <Link to="/about" onClick={onClose}  >
                         <Button variant={"ghost"}>About</Button>
                     </Link>
 
@@ -61,7 +62,7 @@ const Header = () => {
                         {isAuthenticated? (<>
                             <VStack width={"100%"} >
                                 <HStack width={"100%"} justifyContent={"space-evenly"} >
-                                <Link to="/profile" >
+                                <Link onClick={onClose}  to="/profile" >
                                     <Button color={"aqua"} size='md' >Profile</Button>
                                 </Link>
 
@@ -71,7 +72,7 @@ const Header = () => {
                                 </HStack>
 
                                 {user && user.role === "admin" && (
-                                    <Link to="/admin/dashboard" >
+                                    <Link onClick={onClose}  to="/admin/dashboard" >
                                         <Button  color={"purple.300"} width={"100%"} >
                                             <RiDashboardFill style={{margin: "5px"}} />
                                             DashBoard
@@ -81,11 +82,11 @@ const Header = () => {
 
                             </VStack>
                         </>):(<>
-                            <Link to="/login" >
+                            <Link onClick={onClose}  to="/login" >
                                 <Button color={"aqua"} size='md' >Login</Button>
                             </Link>
                             <p>Or</p>
-                            <Link to="/signup" >
+                            <Link onClick={onClose}  to="/signup" >
                                 <Button color={"aqua"} size='md' >Sign Up</Button>
                             </Link>
                         </>)}

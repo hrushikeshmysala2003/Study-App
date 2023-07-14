@@ -31,7 +31,7 @@ body{
 @media (max-width: 336px) {
     
     .container{
-        padding: 1rem;
+        padding: 2rem;
 
     }
     
@@ -64,4 +64,14 @@ body{
     width: 70%;
     margin: 2rem;
     box-shadow: 0 0 20px black;
+}
+
+.course{
+    width: 250px;
+    margin-bottom: 1rem;
+    transition: all 0.5s;
+}
+
+.course:hover{
+    transform: translateY(-10px);
 }

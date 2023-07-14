@@ -10,7 +10,7 @@ import introVideo from "../../assets/videos/intro.mp4"
 const Home = () => {
   return <section className='home' >
     
-    <div className="container">
+    <div className="container" style={{paddingTop: "4"}} >
         <Stack 
         className='stack'
         direction={["column", "row"]}
