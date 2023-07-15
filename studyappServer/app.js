@@ -7,8 +7,18 @@ dotenv.config({path: "./config/config.env"})
 const course = require("./routes/courseRoutes");
 const user = require("./routes/userRoutes");
 const ErrorMiddlerware = require("./middlewares/Error");
+
+
+// Using middleware
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}))
+
 app.use("/api/v1", course);
 app.use("/api/v1", user);
+
+
 
 
 
