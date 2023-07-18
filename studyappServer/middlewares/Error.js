@@ -3,7 +3,7 @@ const ErrorMiddlerware = (err, req, res, next) => {
     err.message = err.message || "Internal Server Error";
     res.status(err.statusCode).json({
         success: false,
-        message: err.message
+        message: err.stack
     })
 }
 

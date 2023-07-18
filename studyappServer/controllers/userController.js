@@ -2,7 +2,8 @@ const catchAsyncError = require("../middlewares/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 const User = require("../models/User");
 const sendToken = require("../utils/sendToken");
-
+const sendEmail = require("../utils/sendEmail");
+const crypto = require("crypto");
 
 exports.registerUser = catchAsyncError( async (req, res, next) => {
     const {name, email, password} = req.body;
@@ -123,5 +124,57 @@ exports.updateProfilePicture = catchAsyncError( async (req, res, next) => {
         success: true,
         message: "Profile Picture Updated Sucessfully"
     })
-
 } )
+
+exports.forgetPassword = catchAsyncError( async (req, res, next) => {
+    const {email} = req.body;
+
+    const user = await User.findOne({email});
+
+    if(!user) return next(new ErrorHandler("No User with this email", 400))
+
+    const resetToken = await user.getResetToken()
+
+    await user.save();
+
+    const url = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`
+    // Send Token via email
+    const message = `Click on the link to reset password ${url}. If u have not requested then please ignore`
+
+    await sendEmail(user.email, "StudyApp Reset Password", message);
+
+
+    res.status(200).json({
+        success: true,
+        message: `Reset Token has been sent to ${user.email}`
+    })
+} )
+
+exports.resetPassword = catchAsyncError( async (req, res, next) => {
+    //  Cloudinary Todo
+
+    const {token} = req.params;
+
+    const resetPasswordToken = crypto.createHash("sha256").update(token).digest("hex");
+
+    const user = await User.findOne({
+        resetPasswordToken,
+        resetPasswordExpire: {
+            $gt: Date.now()
+        }
+    })
+
+    if(!user) return next(new ErrorHandler("Reset Token is invalid or has been expired", 401))
+
+    user.password=req.body.password;
+    user.resetPasswordExpire=undefined;
+    user.resetPasswordToken=undefined;
+
+    await user.save();
+    res.status(200).json({
+        success: true,
+        message: "Password changed Sucessfully"
+    })
+} )
+
+
