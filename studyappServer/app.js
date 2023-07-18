@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv")
+const cookieParser = require("cookie-parser");
+
 
 dotenv.config({path: "./config/config.env"})
 // Importing  and using Routes
@@ -10,6 +12,7 @@ const ErrorMiddlerware = require("./middlewares/Error");
 
 
 // Using middleware
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
