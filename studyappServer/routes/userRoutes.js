@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerUser, loginUser, logoutUser, getMyProfile } = require("../controllers/userController");
+const { registerUser, loginUser, logoutUser, getMyProfile, changePassword, updateProfile, updateProfilePicture } = require("../controllers/userController");
 const isAuthenticated = require("../middlewares/auth");
 const router = express.Router();
 
@@ -16,8 +16,15 @@ router.route("/logout").get(logoutUser);
 router.route("/me").get( isAuthenticated ,getMyProfile);
 
 // changePassword
+router.route("/changepassword").put( isAuthenticated ,changePassword);
+
 // UpdateProfile
+router.route("/updateprofile").put( isAuthenticated ,updateProfile);
+
+
 // UpdateProfilePicture
+router.route("/updateprofilepicture").put( isAuthenticated ,updateProfilePicture);
+
 
 // ForgetPassword
 // ResetPassword

@@ -76,3 +76,52 @@ exports.getMyProfile = catchAsyncError( async (req, res, next) => {
         user
     })
 } )
+
+exports.changePassword = catchAsyncError( async (req, res, next) => {
+    const {oldPassword, newPassword} = req.body;
+
+    if(!oldPassword || !newPassword){
+        next(new ErrorHandler("Please enter all fields", 400));
+    }
+
+
+    const user = await User.findById(req.user._id).select("+password");
+
+    const isMatch = await user.comparePassword(oldPassword);
+
+    if(!isMatch){
+        return next(new ErrorHandler("Incorrect old password", 400));
+    }
+
+    user.password = newPassword;
+    await user.save();
+    res.status(200).json({
+        success: true,
+        message: "Password changed successfully",
+    })
+} )
+
+
+exports.updateProfile = catchAsyncError( async (req, res, next) => {
+    const {name, email} = req.body;
+
+    const user = await User.findById(req.user._id);
+
+    if(name) user.name=name;
+    if(email) user.email=name;
+
+    await user.save();
+    res.status(200).json({
+        success: true,
+        message: "Profile updated successfully",
+    })
+} )
+
+exports.updateProfilePicture = catchAsyncError( async (req, res, next) => {
+    //  Cloudinary Todo
+    res.status(200).json({
+        success: true,
+        message: "Profile Picture Updated Sucessfully"
+    })
+
+} )
