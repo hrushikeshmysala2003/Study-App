@@ -1,10 +1,11 @@
 const express = require("express");
 const { registerUser, loginUser, logoutUser, getMyProfile, changePassword, updateProfile, updateProfilePicture, forgetPassword, resetPassword, addToPlaylist, removeFromPlaylist } = require("../controllers/userController");
 const {isAuthenticated} = require("../middlewares/auth");
+const singleUpload = require("../middlewares/multer");
 const router = express.Router();
 
 // To register a new user
-router.route("/register").post(registerUser)
+router.route("/register").post( singleUpload ,registerUser)
 
 // Login
 router.route("/login").post(loginUser);
@@ -23,7 +24,7 @@ router.route("/updateprofile").put( isAuthenticated ,updateProfile);
 
 
 // UpdateProfilePicture
-router.route("/updateprofilepicture").put( isAuthenticated ,updateProfilePicture);
+router.route("/updateprofilepicture").put( isAuthenticated, singleUpload ,updateProfilePicture);
 
 
 // ForgetPassword

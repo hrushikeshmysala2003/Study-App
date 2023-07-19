@@ -5,13 +5,17 @@ const sendToken = require("../utils/sendToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const Course = require("../models/Course");
+const getDataUri = require("../utils/dataUri");
+const cloudinary= require("cloudinary");
+
 
 exports.registerUser = catchAsyncError( async (req, res, next) => {
+
     const {name, email, password} = req.body;
+    const file = req.file 
 
-    // const file = req.file 
 
-    if(!name || !email || !password){
+    if(!name || !email || !password || !file){
         next(new ErrorHandler("Please enter all fields", 400));
     }
 
@@ -21,13 +25,17 @@ exports.registerUser = catchAsyncError( async (req, res, next) => {
 
     // Upload file on cloudinary
 
+    const fileUri=getDataUri(file);
+
+    const myCloud = await cloudinary.v2.uploader.upload(fileUri.content);
+
     user = await User.create({
         name, 
         email, 
         password,
         avatar: {
-            public_id: "temp",
-            url: "temp"
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url
         }
     });
 
@@ -121,6 +129,23 @@ exports.updateProfile = catchAsyncError( async (req, res, next) => {
 
 exports.updateProfilePicture = catchAsyncError( async (req, res, next) => {
     //  Cloudinary Todo
+    
+    const file = req.file 
+
+    const user = await User.findById(req.user._id);
+
+    const fileUri=getDataUri(file);
+
+    const myCloud = await cloudinary.v2.uploader.upload(fileUri.content);
+
+    await cloudinary.v2.uploader.destroy(user.avatar.public_id)
+
+    user.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url
+    }
+
+    await user.save()
     res.status(200).json({
         success: true,
         message: "Profile Picture Updated Sucessfully"
