@@ -1,6 +1,6 @@
 const express = require("express");
 const { registerUser, loginUser, logoutUser, getMyProfile, changePassword, updateProfile, updateProfilePicture, forgetPassword, resetPassword, addToPlaylist, removeFromPlaylist } = require("../controllers/userController");
-const isAuthenticated = require("../middlewares/auth");
+const {isAuthenticated} = require("../middlewares/auth");
 const router = express.Router();
 
 // To register a new user

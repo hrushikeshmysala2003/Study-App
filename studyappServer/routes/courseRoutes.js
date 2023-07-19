@@ -1,16 +1,18 @@
-const  { getAllCourses, createCourse, getCourseLectures, addLecture }  = require("../controllers/courseController");
+const  { getAllCourses,  getCourseLectures, addLecture, createCourse, deleteCourse, deleteLecture }  = require("../controllers/courseController");
 
 const express = require("express");
 const singleUpload = require("../middlewares/multer");
-
+const { isAuthenticated, authorizeAdmin } = require("../middlewares/auth")
 const router = express.Router();
 
 router.route("/courses").get(getAllCourses);
-router.route("/createcourse").post( singleUpload ,createCourse);
+router.route("/createcourse").post( isAuthenticated, authorizeAdmin , singleUpload ,createCourse);
 
 // Add Lecture, Delete Course, Get Course Details 
-router.route("/course/:id").get(getCourseLectures);
-router.route("/course/:id").post( singleUpload ,addLecture);
+router.route("/course/:id").get( isAuthenticated, getCourseLectures);
+router.route("/course/:id").post(isAuthenticated, authorizeAdmin, singleUpload ,addLecture);
+router.route("/course/:id").delete(isAuthenticated, authorizeAdmin ,deleteCourse);
+router.route("/lecture").delete(isAuthenticated, authorizeAdmin , deleteLecture);
 // Delete Lecture
 
 
