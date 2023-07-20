@@ -23,3 +23,10 @@ exports.authorizeAdmin = (req, res, next) => {
     next();
 }
 
+
+exports.authorizeSubscribers = (req, res, next) => {
+    if(req.user.subscription.status !== "active" && req.user.role !== "admin"){
+        return next(new ErrorHandler("Only subscribers can access this resourse", 403));
+    }
+    next();
+}

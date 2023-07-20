@@ -11,7 +11,7 @@ const user = require("./routes/userRoutes");
 const payment = require("./routes/paymentRoute");
 const ErrorMiddlerware = require("./middlewares/Error");
 // const { instance } = require("./server");
-
+const others = require("./routes/otherRoutes");
 
 
 // Using middleware
@@ -23,7 +23,7 @@ app.use(express.urlencoded({
 
 app.use("/api/v1", course);
 app.use("/api/v1", user);
-
+app.use("/api/v1", others);
 app.use("/api/v1", payment);
 
 
