@@ -7,7 +7,7 @@ const crypto = require("crypto");
 const Course = require("../models/Course");
 const getDataUri = require("../utils/dataUri");
 const cloudinary= require("cloudinary");
-
+const Stats = require("../models/Stats");
 
 exports.registerUser = catchAsyncError( async (req, res, next) => {
 
@@ -312,3 +312,15 @@ exports.deleteMyProfile = catchAsyncError( async (req, res, next) => {
     })
 
 } )
+
+User.watch().on("change", async () => {
+    const stats = await Stats.find({}).sort({createdAt: "desc" }).limit(1)
+
+    const subscription = await User.find({"subscription.status": "active"})
+
+    stats[0].subscription=subscription.length;
+    stats[0].users = await User.countDocuments();
+    stats[0].createdAt = new Date(Date.now());
+
+    await stats[0].save();
+})

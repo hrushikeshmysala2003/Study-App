@@ -3,6 +3,7 @@ const validator = require("validator")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
+const Stats = require("../models/Stats");
 const userSchema = new mongoose.Schema({
     name :{
         type: String,
@@ -92,5 +93,6 @@ userSchema.methods.getResetToken =  function (){
 
     return resetToken;
 }
+
 
 module.exports = mongoose.model("User", userSchema);

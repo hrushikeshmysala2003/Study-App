@@ -3,6 +3,8 @@ const connectDB = require("./config/database");
 const cloudinary = require("cloudinary");
 const Razorpay = require("razorpay");
 const catchAsyncError = require("./middlewares/catchAsyncErrors");
+const nodecron = require("node-cron");
+const Stats = require("./models/Stats");
 
 connectDB();
 
@@ -12,14 +14,18 @@ cloudinary.v2.config({
     api_secret: process.env.CLOUDINARY_CLIENT_SECRET
 })
 
-// const instance = new Razorpay({
-//     key_id: process.env.RAZORPAY_API_KEY,
-//     key_secret: process.env.RAZORPAY_API_SECRET,
-// });
+const temp = async () => {
+    await Stats.create({});
+}
+// temp();
+nodecron.schedule("0 0 0 1 * *", async () => {
+    try{
+        temp();
+    }catch(error){
+        console.log(error);
+    }
 
-
-// console.log(instance.subscriptions);
-// module.exports = { instance, createSubscription }
+})
 
 app.listen(process.env.PORT, () => {
     console.log(`Server id working on port: ${process.env.PORT}`);
