@@ -10,7 +10,11 @@ import ForgetPassword from './components/Auth/ForgetPassword';
 import ResetPassword from './components/Auth/ResetPassword';
 import Contact from './components/Contact/Contact';
 import Request from './components/Request/Request';
-// import About from './components/About/About';
+import About from './components/About/About';
+import NoteFound from './components/Layout/NotFound/NoteFound';
+import PaymentSuccess from './components/Payments/PaymentSuccess';
+import PaymentFail from './components/Payments/PaymentFail';
+import Subscribe from './components/Payments/Subscribe';
 function App() {
   return <Router>
 
@@ -21,11 +25,15 @@ function App() {
       <Route path='/courses' element={<Courses />} ></Route>
       <Route path='/contact' element={<Contact />} ></Route>
       <Route path='/request' element={<Request />} ></Route>
-      {/* <Route path='/about' element={<About />} ></Route> */}
+      <Route path='/about' element={<About />} ></Route>
       <Route path='/login' element={<Login />} ></Route>
       <Route path='/register' element={<Register />} ></Route>
       <Route path='/forgetpassword' element={<ForgetPassword />} ></Route>
       <Route path='/resetpassword/:token' element={<ResetPassword />} ></Route>
+      <Route path='/subscribe' element={<Subscribe />} ></Route>
+      <Route path='*' element={<NoteFound />} ></Route>
+      <Route path='/paymentsuccess' element={<PaymentSuccess />} ></Route>
+      <Route path='/paymentfail' element={<PaymentFail />} ></Route>
     </Routes>
     
     <Footer />
@@ -33,3 +41,10 @@ function App() {
 }
 
 export default App;
+
+
+// PaymentSuccessPage
+// PaymentFailPage
+// Page not Found
+// CourseDetailPage
+// subscribe Page
