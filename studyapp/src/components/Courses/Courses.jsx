@@ -21,7 +21,7 @@ const Course = ({views, title, imageSrc, id, addToPlayListHandler, creator, desc
         <Heading textAlign={"center"} size={"xs"} textTransform={"uppercase"} children={`Views - ${views}`} />
 
         <Stack direction={["column", "row"]} alignItems={"center"} > 
-            <Link to={`courses/${id}`} > 
+            <Link to={`/course/${id}`} > 
                 <Button color={"cyan"} >Watch now</Button>
             </Link>
 

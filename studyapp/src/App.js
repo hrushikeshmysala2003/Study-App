@@ -15,7 +15,11 @@ import NoteFound from './components/Layout/NotFound/NoteFound';
 import PaymentSuccess from './components/Payments/PaymentSuccess';
 import PaymentFail from './components/Payments/PaymentFail';
 import Subscribe from './components/Payments/Subscribe';
+import Coursepage from './components/CoursePage/Coursepage';
 function App() {
+  // window.addEventListener("contextmenu", (e) => {
+  //   e.preventDefault();
+  // })
   return <Router>
 
     <Header />
@@ -23,6 +27,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Home />} ></Route>
       <Route path='/courses' element={<Courses />} ></Route>
+      <Route path='/course/:id' element={<Coursepage />} ></Route>
       <Route path='/contact' element={<Contact />} ></Route>
       <Route path='/request' element={<Request />} ></Route>
       <Route path='/about' element={<About />} ></Route>
@@ -43,8 +48,5 @@ function App() {
 export default App;
 
 
-// PaymentSuccessPage
-// PaymentFailPage
-// Page not Found
-// CourseDetailPage
-// subscribe Page
+// Profile - changePassword profile, updateProfile
+// Admin - adminCourses, createCourse, dashboard, users, sidebar
