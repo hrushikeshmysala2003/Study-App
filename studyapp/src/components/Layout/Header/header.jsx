@@ -23,7 +23,7 @@ const Header = () => {
     <div>
       <ColorModeSwitcher />
 
-      <Button colorScheme={'blue'}  onClick={onOpen} width={'12'} height={'12'} rounded={'full'} position={'absolute'} left={'6'} top={'6'} >
+      <Button colorScheme={'blue'} zIndex={"overlay"} onClick={onOpen} width={'12'} height={'12'} rounded={'full'} position={'absolute'} left={'6'} top={'6'} >
         <RiMenu5Fill />
       </Button>
 

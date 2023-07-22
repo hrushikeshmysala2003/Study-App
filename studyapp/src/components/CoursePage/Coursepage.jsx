@@ -33,8 +33,8 @@ const Coursepage = () => {
                 },
     }]
   return (
-    <>
-        <Heading p={"2"} textAlign={"center"} children={` ${lectureNumber+1}  ${lectures[lectureNumber].title}`} />
+    
+        
         <Grid  padding={"4"} minH={"90vh"} templateColumns={['1fr', '3fr 1fr']}>
         <Box>
         <video
@@ -46,7 +46,10 @@ const Coursepage = () => {
         disablePictureInPicture={true}
         disableRemotePlayback={true}
         ></video>
+
+        <Heading p={"2"} textAlign={"center"} children={` ${lectureNumber+1}  ${lectures[lectureNumber].title}`} />
         <Heading m="4" children="Description" />
+
 
         <Text m="4" children={`${lectures[lectureNumber].description}`} />
 
@@ -72,7 +75,7 @@ const Coursepage = () => {
         </VStack>
     </Grid>
 
-    </>
+    
     
   )
 }
