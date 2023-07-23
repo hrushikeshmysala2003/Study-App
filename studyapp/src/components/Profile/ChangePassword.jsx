@@ -9,8 +9,8 @@ const ChangePassword = () => {
         <form>
             <Heading textTransform={"uppercase"} children="Change Password" my="16" textAlign={["center", "left"]} />
             <VStack spacing={"8"}>
-            <Input required id='password'  placeholder="Old password" value={oldPassword} type='password' onChange={ e => setOldPassword(e.target.value) } focusBorderColor='cyan' />
-            <Input required id='password'  placeholder="New password" value={newPassword} type='password' onChange={ e => setNewPassword(e.target.value) } focusBorderColor='cyan' />
+            <Input required id='oldpassword'  placeholder="Old password" value={oldPassword} type='password' onChange={ e => setOldPassword(e.target.value) } focusBorderColor='cyan' />
+            <Input required id='newpassword'  placeholder="New password" value={newPassword} type='password' onChange={ e => setNewPassword(e.target.value) } focusBorderColor='cyan' />
             <Button w={"full"} color={"aqua"} type='submit' >Change</Button>
             </VStack>
         </form>
