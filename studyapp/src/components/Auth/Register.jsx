@@ -58,7 +58,7 @@ const Register = () => {
             </Box>
             <Box my={"4"} >
                 <FormLabel htmlFor="chooseAvatar" children="Choose Avatar" />
-                <Input accept='image/*' height={"-moz-max-content"} padding={"3"} css={fileUploadStyle} onChange={fileUploadHandler} type='file' required id='chooseAvatar'   focusBorderColor='cyan' />
+                <Input accept='image/*' height={"-moz-max-content"} padding={"3"} value={image} css={fileUploadStyle} onChange={fileUploadHandler} type='file' required id='chooseAvatar'   focusBorderColor='cyan' />
             </Box>
             
             
