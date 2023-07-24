@@ -5,7 +5,7 @@ import { RiAddCircleFill, RiDashboardFill, RiEyeFill, RiUser3Fill } from "react-
 const LinkButton = ({url, Icon, text, active}) => {
   return (
     <Link to={`/admin/${url}`} >
-        <Button colorScheme={active?"purple":""} fontSize={"larger"} variant={'ghost'}>
+        <Button w={"full"} color={active?"purple.700":""} fontSize={"larger"} variant={'ghost'}>
           <Icon style={{margin: "4px"}} />
           {text}
         </Button>
