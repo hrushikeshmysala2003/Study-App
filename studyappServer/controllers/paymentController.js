@@ -5,7 +5,7 @@ const instance = require("../utils/instance");
 const crypto = require("crypto");
 const Payment = require("../models/Payment");
 
-
+ 
 exports.buySubscription = catchAsyncError(async (req, res, next) => {
     const user = await User.findById(req.user._id);
 
@@ -24,7 +24,7 @@ exports.buySubscription = catchAsyncError(async (req, res, next) => {
     // console.log(instance.subscriptions);
     const id = subscription.id;
     const status = subscription.status;
-    console.log(id, status);
+    // console.log(id, status);
     if(!id || !status) return next(new ErrorHandler("Please specify id and status"));
 
     user.subscription.id = id;

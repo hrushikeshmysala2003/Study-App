@@ -5,7 +5,20 @@ const getDataUri = require("../utils/dataUri");
 const cloudinary = require("cloudinary");
 const Stats = require("../models/Stats")
 exports.getAllCourses = catchAsyncError(async (req, res, next) => {
-    const courses = await Course.find().select("-lectures");
+    const keyword = req.query.keyword || "";
+    const category = req.query.category || "";
+
+
+    const courses = await Course.find({
+        title: {
+            $regex: keyword,
+            $options: "i",
+        },
+        category: {
+            $regex: category,
+            $options: "i",
+        }
+    }).select("-lectures");
     res.status(200).json({
         success: true,
         courses
@@ -157,7 +170,7 @@ Course.watch().on("change", async () => {
     const courses = await Course.find({});
 
     totalViews= 0;
-    for (let i = 0; i < array.length; i++) {
+    for (let i = 0; i < courses.length; i++) {
         totalViews += courses[i].views;
     }
 
