@@ -46,8 +46,6 @@ exports.registerUser = catchAsyncError( async (req, res, next) => {
 exports.loginUser = catchAsyncError( async (req, res, next) => {
     const {email, password} = req.body;
 
-    // const file = req.file 
-
     if(!email || !password){
         next(new ErrorHandler("Please enter all fields", 400));
     }
@@ -56,7 +54,6 @@ exports.loginUser = catchAsyncError( async (req, res, next) => {
 
     if(!user) return next(new ErrorHandler("Incorrect Email or Password", 401))
 
-    // Upload file on cloudinary
     const isMatch = await user.comparePassword(password);
 
     if(!isMatch) return next(new ErrorHandler("Incorrect Email or Password", 401))
