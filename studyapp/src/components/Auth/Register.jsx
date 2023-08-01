@@ -1,8 +1,11 @@
 
 import { Container, Heading, Input, VStack, FormLabel, Box, Button, Avatar } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import { FaFileUpload } from 'react-icons/fa'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { register } from '../../redux/actions/user'
+
+
 const fileUploadStyle = {
     "&::file-selector-button": {
         marginRight: "20px",
@@ -18,8 +21,21 @@ const fileUploadStyle = {
         background: "#0d45a5"
       }
 }
+
 const Register = () => {
     const [image, setImage] = useState("")
+    const dispatch = useDispatch();
+    const submitHandler = (e) => {
+        e.preventDefault();
+        const myForm = new FormData();
+    
+        myForm.append("name", name);
+        myForm.append("email", email);
+        myForm.append("password", password);
+        myForm.append("file", image);
+    
+        dispatch(register(myForm))
+    }
     const fileUploadHandler = (e) => {
         const file = e.target.files[0];
 
@@ -40,7 +56,7 @@ const Register = () => {
 
         <Heading paddingTop={"8"} textTransform={"uppercase"} children="Registration" />
 
-        <form style={{width: "100%"}} >
+        <form onSubmit={submitHandler} style={{width: "100%"}} >
             <Box display={"flex"}   justifyContent={"center"} my={"4"}  >
                 <Avatar src={imagePrev} size={"2xl"} />
             </Box>
@@ -58,7 +74,8 @@ const Register = () => {
             </Box>
             <Box my={"4"} >
                 <FormLabel htmlFor="chooseAvatar" children="Choose Avatar" />
-                <Input accept='image/*' height={"-moz-max-content"} padding={"3"} value={image} css={fileUploadStyle} onChange={fileUploadHandler} type='file' required id='chooseAvatar'   focusBorderColor='cyan' />
+                <Input accept='image/*' height={"-moz-max-content"} padding={"3"} css={fileUploadStyle} onChange={fileUploadHandler} type='file' required id='chooseAvatar'   focusBorderColor='cyan' />
+                
             </Box>
             
             

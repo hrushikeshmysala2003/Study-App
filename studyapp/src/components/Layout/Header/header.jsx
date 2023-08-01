@@ -87,7 +87,7 @@ const Header = ({isAuthenticated = false, user}) => {
                                 <Button color={"aqua"} size='md' >Login</Button>
                             </Link>
                             <p>Or</p>
-                            <Link onClick={onClose}  to="/signup" >
+                            <Link onClick={onClose}  to="/register" >
                                 <Button color={"aqua"} size='md' >Sign Up</Button>
                             </Link>
                         </>)}

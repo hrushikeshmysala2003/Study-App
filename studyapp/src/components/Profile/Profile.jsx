@@ -29,25 +29,11 @@ const fileUploadStyle = {
     }
 }
 
-const Profile = () => {
+const Profile = ({user}) => {
     
   const {isOpen, onClose, onOpen} = useDisclosure()
   
-  const user = {
-    name: "Rushi",
-    email: "abhi@gmail.com",
-    createdAt: String( new Date().toISOString() ),
-    role: "user",
-    subscription: {
-      status: undefined,
-    },
-    playlist: [
-      {
-        course: "hsdbvkjsd",
-        poster: "https://res.cloudinary.com/dwna7axtx/image/upload/v1689922950/1639911330663_gp3s77.png"
-      },
-    ]
-  }
+  
 
   const changeImageSubmitHandler = (e, image) => {
 
@@ -71,7 +57,7 @@ const Profile = () => {
         padding={"8"}
         >
           <VStack>
-           <Avatar  boxSize={"48"} />
+           <Avatar src={user.avatar.url} boxSize={"48"} />
 
             <Button color={"aqua"} size={"md"} onClick={onOpen} >Change Photo</Button>
           </VStack>
@@ -91,7 +77,7 @@ const Profile = () => {
             </HStack>
             {user.role !== "admin" && <HStack>
               <Text children="Subscription  " fontWeight={"bold"}  />
-                {user.subscription.status === "active"?(
+                {(user.subscription && user.subscription.status === "active")?(
                   <Button color={"red"} >Cancel Subscription</Button>
                 ):(
                   <Link to="/subscribe" >
@@ -105,10 +91,10 @@ const Profile = () => {
             alignItems={"center"}
             >
               <Link to={"/updateprofile"}>
-                <Button size={"sm"} >Update Profile</Button>
+                <Button color={"aqua"} size={"sm"} >Update Profile</Button>
               </Link>
               <Link to={"/changepassword"}>
-                <Button size={"sm"} >Change Password</Button>
+                <Button color={"aqua"} size={"sm"} >Change Password</Button>
               </Link>
             </Stack>
           </VStack>
