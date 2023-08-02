@@ -1,18 +1,21 @@
 import { Avatar, Button, Container, HStack, Heading, Image, Input, Stack, Text, VStack, useDisclosure } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link} from "react-router-dom"
-import image from "../../assets/images/bg.jfif"
 import { RiDeleteBin7Fill } from 'react-icons/ri'
 import { useState } from 'react'
 import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
+  ModalHeader, 
   ModalFooter,
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateProfilePicture } from '../../redux/actions/profile'
+import { loadUser } from '../../redux/actions/user'
+import toast from 'react-hot-toast'
 const fileUploadStyle = {
   "&::file-selector-button": {
       marginRight: "20px",
@@ -30,13 +33,36 @@ const fileUploadStyle = {
 }
 
 const Profile = ({user}) => {
+
+
     
   const {isOpen, onClose, onOpen} = useDisclosure()
   
-  
+  const dispatch = useDispatch();
 
-  const changeImageSubmitHandler = (e, image) => {
+  const {loading, message, error} = useSelector(state => state.profile)
 
+  useEffect(() => {
+    if(error) {
+      toast.error(error);
+      dispatch({ type: "clearError" })
+    }
+
+    if(message) {
+      toast.success(message);
+      dispatch({ type: "clearMessage" })
+    }
+  }, [dispatch, error, message])
+
+  const changeImageSubmitHandler = async (e, image) => {
+    e.preventDefault();
+    const myForm = new FormData();
+
+    myForm.append("file", image);
+
+    await dispatch(updateProfilePicture(myForm));
+
+    dispatch(loadUser());
   }
   const removeFromPlaylistHandler = id => {
     console.log(id);
@@ -91,10 +117,10 @@ const Profile = ({user}) => {
             alignItems={"center"}
             >
               <Link to={"/updateprofile"}>
-                <Button color={"aqua"} size={"sm"} >Update Profile</Button>
+                <Button isLoading={loading} color={"aqua"} size={"sm"} >Update Profile</Button>
               </Link>
               <Link to={"/changepassword"}>
-                <Button color={"aqua"} size={"sm"} >Change Password</Button>
+                <Button isLoading={loading} color={"aqua"} size={"sm"} >Change Password</Button>
               </Link>
             </Stack>
           </VStack>
@@ -126,7 +152,7 @@ const Profile = ({user}) => {
             }
           </Stack>
         }
-        <ChangePhotosBox changeImageSubmitHandler={changeImageSubmitHandler} isOpen={isOpen} onClose={onClose} />
+        <ChangePhotosBox changeImageSubmitHandler={changeImageSubmitHandler} isOpen={isOpen} onClose={onClose} loading={loading} />
     </Container>
   )
 }
@@ -138,7 +164,7 @@ export default Profile;
 
 
 
-function ChangePhotosBox({isOpen, onClose, changeImageSubmitHandler}){
+function ChangePhotosBox({isOpen, onClose, changeImageSubmitHandler, loading}){
     const [imagePrev, setImagePrev] = useState("");
     const [image, setImage] = useState("");
     const changeImage = (e) => {
@@ -170,7 +196,7 @@ function ChangePhotosBox({isOpen, onClose, changeImageSubmitHandler}){
               <VStack spacing={"8"}>
                 <Avatar src={imagePrev} boxSize={"48"} />
                 <Input  height={"-moz-min-content"} type='file' css={fileUploadStyle} onChange={changeImage} />
-                <Button w="full" color={"aqua"} type="submit" >Change</Button>
+                <Button w="full" color={"aqua"} type="submit" isLoading={loading} >Change</Button>
               </VStack>
             </form>
           </Container>

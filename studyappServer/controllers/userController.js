@@ -115,7 +115,7 @@ exports.updateProfile = catchAsyncError( async (req, res, next) => {
     const user = await User.findById(req.user._id);
 
     if(name) user.name=name;
-    if(email) user.email=name;
+    if(email) user.email=email;
 
     await user.save();
     res.status(200).json({

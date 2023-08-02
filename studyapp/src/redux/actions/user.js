@@ -66,4 +66,4 @@ export const register = (formdata) => async (dispatch) => {
     } catch (error) {
         dispatch({type: "registerFail", payload: error.response.data.message})
     }
-}
+} 
