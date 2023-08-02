@@ -32,11 +32,11 @@ router.route("/updateprofilepicture").put( isAuthenticated, singleUpload ,update
 
 
 // ForgetPassword
-router.route("/forgetpassword").post( isAuthenticated ,forgetPassword);
+router.route("/forgetpassword").post(forgetPassword);
 
 
 // ResetPassword
-router.route("/resetpassword/:token").put( isAuthenticated ,resetPassword);
+router.route("/resetpassword/:token").put(resetPassword);
 
 
 // Add to Playlist
