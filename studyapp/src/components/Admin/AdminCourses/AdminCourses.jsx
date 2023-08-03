@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Button, Grid, HStack, Heading, Image, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react'
 
 import cursor from "../../../assets/images/cursor.png"
 import Sidebar from '../Sidebar'
 import { RiDeleteBin7Fill } from 'react-icons/ri'
 import CourseModal from './CourseModal'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllCourses } from '../../../redux/actions/course'
 
 const Row = ({item, courseDetailsHandler, deleteButtonHandler}) => {
     
@@ -34,6 +36,7 @@ const Row = ({item, courseDetailsHandler, deleteButtonHandler}) => {
     )
 }
 const AdminCourses = () => {
+    const dispatch = useDispatch();
     const {isOpen, onClose, onOpen} = useDisclosure()
     const courseDetailsHandler = (userId) => {
         onOpen();
@@ -48,19 +51,12 @@ const AdminCourses = () => {
     const addLectureHandler = (e, courseId, title, description, video) => {
         e.preventDefault();
     }
-    const courses=[
-        {
-            _id: "sblkdsdckjanskldmansc",
-            title: "React Course",
-            category: "Web Development",
-            poster: {
-                url: "https://res.cloudinary.com/dwna7axtx/image/upload/v1689922950/1639911330663_gp3s77.png",
-            },
-            createdBy: "rushi",
-            views: 123,
-            numOfVideos: 12,
-        }
-    ]
+    const {courses } = useSelector(state => state.course)
+
+    useEffect(() => {
+        dispatch(getAllCourses());
+    }, [dispatch])
+    
   return (
     <Grid css={{cursor: `url(${cursor}), default`}} minH={"100vh"} templateColumns={["1fr", "5fr 1fr"]} >
         <Box p={["0", "14"]} overflowX={"auto"} >
