@@ -1,11 +1,19 @@
 import { Container, HStack, Heading, Input, Text, Button, Stack, VStack, Image } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import "../Home/home.css"
+import {useDispatch, useSelector} from "react-redux"
+import { getAllCourses } from '../../redux/actions/course'
+import toast from "react-hot-toast"
+
+
 const addToPlayListHandler = () => {
     console.log("Added Playlist")
 }
+
+
 const Course = ({views, title, imageSrc, id, addToPlayListHandler, creator, description, lectureCount}) => {
+    
   return (
     <VStack className='course' alignItems={["center", "flex-start"]} >
         <Image src={imageSrc} boxSize="60" objectFit={"contain"} />
@@ -26,7 +34,7 @@ const Course = ({views, title, imageSrc, id, addToPlayListHandler, creator, desc
             </Link>
 
             <Button variant={"ghost"} colorScheme='cyan
-            ' onClick={() => {addToPlayListHandler(id)}}>Add to Playlist</Button>
+            ' onClick={() => {addToPlayListHandler(id)}}>Add to Playlist</Button> 
 
         </Stack>
     </VStack>
@@ -47,6 +55,19 @@ const Courses = () => {
         "Web Development", "Artificial Intelligence", "Data Structure and Algorithms",
         "App Development", "Data Science", "Game Development"
     ]
+
+    const {loading, courses, error} = useSelector(state => state.course)
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getAllCourses(category, keyword));
+
+        if(error){
+            toast.error(error)
+            dispatch({type: "clearError"})
+        }
+    }, [category, keyword, error, dispatch])
+
   return (
     <Container minH={'95vh'} maxW="container.lg" paddingY={'8'} >
 
@@ -64,16 +85,23 @@ const Courses = () => {
     </HStack>
 
     <Stack direction={["column", "row"]} flexWrap={"wrap"} justifyContent={["flex-start", "space-evenly"]} alignItems={["center", "flex-start"]} >
-        <Course 
-        title={"Sample"}
-        description={"Sample"}
-        imageSrc={"https://media.istockphoto.com/id/1270632735/photo/model-of-atom-and-elementary-particles-physics-concept-3d-rendered-illustration.jpg?s=2048x2048&w=is&k=20&c=LrAH2gdWQoUPKJXGTg_acHaahHQzhulmFQPPmpBo9s0="} 
-        views={23}
-        creator={"Sample Boy"}
-        id={"sample"}
-        lectureCount={2}
-        addToPlayListHandler={addToPlayListHandler}
-        />
+        {
+            courses.length > 0 ? (courses.map((item) => (
+                <Course 
+                key={item._id}
+                title={item.title}
+                description={item.description}
+                imageSrc={item.poster.url} 
+                views={item.views}
+                creator={item.createdBy}
+                id={item._id}
+                lectureCount={item.numOfVideos}
+                addToPlayListHandler={addToPlayListHandler(item._id)}
+                />
+            ))) : (
+                <Heading mt={"4"} opacity={0.5} children="Course Not Found" />
+            )
+        }
     </Stack>
 
     </Container>

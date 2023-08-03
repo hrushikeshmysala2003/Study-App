@@ -1,6 +1,5 @@
 import { Box, Grid, Heading, Text, VStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
-
 import introVideo from "../../assets/videos/intro.mp4"
 const Coursepage = () => {
     const LectureTitle="LectureTitle";
@@ -32,6 +31,8 @@ const Coursepage = () => {
         
                 },
     }]
+
+
   return (
     
         
