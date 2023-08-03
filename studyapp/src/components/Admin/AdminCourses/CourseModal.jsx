@@ -79,7 +79,7 @@ const CourseModal = ({isOpen, onClose, id, deleteButtonHandler, courseTitle, add
                         
 
                          {
-                            lectures.map((item, index) => (
+                            lectures?.map((item, index) => (
                                 <VideoCard
                                     key={index}
                                     title={item.title}

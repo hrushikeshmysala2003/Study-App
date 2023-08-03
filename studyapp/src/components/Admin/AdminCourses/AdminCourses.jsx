@@ -60,7 +60,7 @@ const AdminCourses = () => {
     const {loading, message, error } = useSelector(state => state.admin)
     useEffect(() => {
         dispatch(getAllCourses());
-    })
+    }, [dispatch])
     useEffect(() => {
         dispatch(getAllCourses());
         if(message){
