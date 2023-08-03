@@ -17,3 +17,19 @@ export const createCourse = (formdata) => async (dispatch) => {
         dispatch({type: "createcourseFail", payload: error.response.data.message })
     }
 }
+
+
+export const deleteCourse = (id) => async (dispatch) => {
+    try {
+        dispatch({type: "deletecourseRequest"});
+
+        const {data} = await axios.delete(`${server}/course/${id}`, {
+            
+            withCredentials: true
+        })
+
+        dispatch({type: "deletecourseSuccess", payload: data.message})
+    } catch (error) {
+        dispatch({type: "deletecourseFail", payload: error.response.data.message })
+    }
+}

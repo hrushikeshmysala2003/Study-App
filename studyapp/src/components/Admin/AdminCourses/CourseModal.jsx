@@ -20,7 +20,7 @@ const VideoCard = ({title, description, num, lectureId, courseId, deleteButtonHa
     )
 }
 
-const CourseModal = ({isOpen, onClose, id, deleteButtonHandler, courseTitle, addLectureHandler, lectures=[1, 2, 3, 4, 5, 6, 7, 8]}) => {
+const CourseModal = ({isOpen, onClose, id, deleteButtonHandler, courseTitle, addLectureHandler, lectures, loading}) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [video, setVideo] = useState("");
@@ -76,24 +76,17 @@ const CourseModal = ({isOpen, onClose, id, deleteButtonHandler, courseTitle, add
                         </Box>
 
                         <Heading children={"Lectures"} size="lg" />
-                        <VideoCard
-                            title="ReactIntro"
-                            description="This is a intro lecture where u will know basics of react"
-                            num={1}
-                            lectureId={"sjbdkjdfbdjkvbuthe"}
-                            courseId={"jcnjboijejbdhabcl"}
-                            deleteButtonHandler={deleteButtonHandler}
-                         />
+                        
 
                          {
                             lectures.map((item, index) => (
                                 <VideoCard
                                     key={index}
-                                    title="ReactIntro"
-                                    description="This is a intro lecture where u will know basics of react"
+                                    title={item.title}
+                                    description={item.description}
                                     num={index+1}
-                                    lectureId={"sjbdkjdfbdjkvbuthe"}
-                                    courseId={"jcnjboijejbdhabcl"}
+                                    lectureId={item._id}
+                                    courseId={id}
                                     deleteButtonHandler={deleteButtonHandler}
                                 />
                             ))
@@ -116,7 +109,7 @@ const CourseModal = ({isOpen, onClose, id, deleteButtonHandler, courseTitle, add
                                     )
                                 }
 
-                                <Button w="full" color={"purple.600"} type='submit'>Upload</Button>
+                                <Button isLoading={loading} w="full" color={"purple.600"} type='submit'>Upload</Button>
                             </VStack>
                         </form>
                     </Box>

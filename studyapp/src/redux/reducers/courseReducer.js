@@ -30,4 +30,16 @@
     clearMessage: (state) => {
         state.message = null;
     },
+    getCourseRequest: (state) => {
+        state.loading = true;
+    },
+    getCourseSuccess: (state, action) => {
+        state.loading = false;
+        state.lectures = action.payload;
+    },
+    
+    getCourseFail: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+    },
  }) 
