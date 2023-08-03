@@ -5,14 +5,12 @@ import "../Home/home.css"
 import {useDispatch, useSelector} from "react-redux"
 import { getAllCourses } from '../../redux/actions/course'
 import toast from "react-hot-toast"
+import {addToPlaylist} from "../../redux/actions/profile"
+import { loadUser } from '../../redux/actions/user'
 
 
-const addToPlayListHandler = () => {
-    console.log("Added Playlist")
-}
 
-
-const Course = ({views, title, imageSrc, id, addToPlayListHandler, creator, description, lectureCount}) => {
+const Course = ({views, title, imageSrc, id, addToPlayListHandler, creator, description, lectureCount, loading}) => {
     
   return (
     <VStack className='course' alignItems={["center", "flex-start"]} >
@@ -33,8 +31,8 @@ const Course = ({views, title, imageSrc, id, addToPlayListHandler, creator, desc
                 <Button color={"cyan"} >Watch now</Button>
             </Link>
 
-            <Button variant={"ghost"} colorScheme='cyan
-            ' onClick={() => {addToPlayListHandler(id)}}>Add to Playlist</Button> 
+            <Button variant={"ghost"} colorScheme='cyan' isLoading={loading}
+             onClick={() => {addToPlayListHandler(id)}}>Add to Playlist</Button> 
 
         </Stack>
     </VStack>
@@ -49,24 +47,35 @@ const Courses = () => {
     const [ keyword, setKeyword ] = useState("");
     const [category, setCategory ] = useState("");
 
-
-
     const categories = [
         "Web Development", "Artificial Intelligence", "Data Structure and Algorithms",
         "App Development", "Data Science", "Game Development"
     ]
 
-    const {loading, courses, error} = useSelector(state => state.course)
+    const {loading, courses, error, message} = useSelector(state => state.course)
 
     const dispatch = useDispatch();
+    const addToPlayListHandler = async (id) => {
+        await dispatch(addToPlaylist(id));
+        dispatch(loadUser());
+    }
     useEffect(() => {
         dispatch(getAllCourses(category, keyword));
 
         if(error){
-            toast.error(error)
+            toast.error(error, {
+                duration: 4000,
+            })
             dispatch({type: "clearError"})
         }
-    }, [category, keyword, error, dispatch])
+        if(message){
+            toast.success(message, {
+                duration: 8000,
+                position: 'top-center'
+            })
+            dispatch({type: "clearMessage"})
+        }
+    }, [category, keyword, error, message,dispatch])
 
   return (
     <Container minH={'95vh'} maxW="container.lg" paddingY={'8'} >
@@ -96,7 +105,8 @@ const Courses = () => {
                 creator={item.createdBy}
                 id={item._id}
                 lectureCount={item.numOfVideos}
-                addToPlayListHandler={addToPlayListHandler(item._id)}
+                addToPlayListHandler={addToPlayListHandler}
+                loading={loading}
                 />
             ))) : (
                 <Heading mt={"4"} opacity={0.5} children="Course Not Found" />

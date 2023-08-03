@@ -68,41 +68,6 @@ export const register = (formdata) => async (dispatch) => {
     }
 } 
 
-export const addToPlaylist = (id) => async (dispatch) => {
-    try {
-        dispatch({type: "addToPlaylistRequest"});
-
-        const {data} = await axios.post(`${server}/addtoplaylist`, {
-            id
-        }, 
-            {headers: {
-                "Content-Type": "multipart/form-data"
-            },
-            withCredentials: true,}
-        )
-
-        dispatch({type: "addToPlaylistSuccess", payload: data.courses})
-    } catch (error) {
-        dispatch({type: "addToPlaylistFail", payload: error.response.data.message })
-    }
-}
 
 
-export const removeFromPlaylist = (id) => async (dispatch) => {
-    try {
-        dispatch({type: "addToPlaylistRequest"});
 
-        const {data} = await axios.post(`${server}/addtoplaylist`, {
-            id
-        }, 
-            {headers: {
-                "Content-Type": "multipart/form-data"
-            },
-            withCredentials: true,}
-        )
-
-        dispatch({type: "addToPlaylistSuccess", payload: data.courses})
-    } catch (error) {
-        dispatch({type: "addToPlaylistFail", payload: error.response.data.message })
-    }
-}

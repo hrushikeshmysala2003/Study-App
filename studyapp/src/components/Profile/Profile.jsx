@@ -13,7 +13,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateProfilePicture } from '../../redux/actions/profile'
+import { removeFromPlaylist, updateProfilePicture } from '../../redux/actions/profile'
 import { loadUser } from '../../redux/actions/user'
 import toast from 'react-hot-toast'
 const fileUploadStyle = {
@@ -44,12 +44,16 @@ const Profile = ({user}) => {
 
   useEffect(() => {
     if(error) {
-      toast.error(error);
+      toast.error(error, {
+        duration: 4000,
+      });
       dispatch({ type: "clearError" })
     }
 
     if(message) {
-      toast.success(message);
+      toast.success(message, {
+        duration: 4000,
+      });
       dispatch({ type: "clearMessage" })
     }
   }, [dispatch, error, message])
@@ -64,8 +68,10 @@ const Profile = ({user}) => {
 
     dispatch(loadUser());
   }
-  const removeFromPlaylistHandler = id => {
-    console.log(id);
+
+  const removeFromPlaylistHandler = async (id) => {
+     await dispatch(removeFromPlaylist(id))
+      dispatch(loadUser());
   }
 
 

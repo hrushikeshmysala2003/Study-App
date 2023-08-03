@@ -94,3 +94,36 @@ export const resetPassword = (token, password) => async (dispatch) => {
         dispatch({type: "resetPasswordFail", payload: error.response.data.message })
     }
 }
+
+export const addToPlaylist = (id) => async (dispatch) => {
+    try {
+        dispatch({type: "addToPlaylistRequest"});
+
+        const {data} = await axios.post(`${server}/addtoplaylist`, {
+            id
+        }, 
+            {
+            withCredentials: true,}
+        )
+
+        dispatch({type: "addToPlaylistSuccess", payload: data.message})
+    } catch (error) {
+        dispatch({type: "addToPlaylistFail", payload: error.response.data.message })
+    }
+}
+
+
+export const removeFromPlaylist = (id) => async (dispatch) => {
+    try {
+        dispatch({type: "removeFromPlaylistRequest"});
+
+        const {data} = await axios.delete(`${server}/removefromplaylist?id=${id}`, 
+            {
+            withCredentials: true,}
+        )
+
+        dispatch({type: "removeFromPlaylistSuccess", payload: data.message})
+    } catch (error) {
+        dispatch({type: "removeFromToPlaylistFail", payload: error.response.data.message })
+    }
+}
