@@ -1,6 +1,7 @@
-import { Box, Button, Grid, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Box, Button, Grid, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, VStack, useDisclosure } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
 import { RiDeleteBin7Fill } from 'react-icons/ri'
+import { useDispatch, useSelector } from 'react-redux'
 
 const VideoCard = ({title, description, num, lectureId, courseId, deleteButtonHandler}) => {
     return (
@@ -59,7 +60,16 @@ const CourseModal = ({isOpen, onClose, id, deleteButtonHandler, courseTitle, add
         setVideoPrev("");
         onClose();
     }
+    const dispatch = useDispatch();
+    const {message} = useSelector( state => state.admin )
+    useEffect(() => {
+        setTitle("");
+        setDescription("");
+        setVideo("");
+        setVideoPrev("");
+    }, [dispatchEvent, message])
   return (
+    
     <Modal scrollBehavior='outside' onClose={handleClose} isOpen={isOpen} size={"full"} >
         <ModalOverlay />
         <ModalContent >

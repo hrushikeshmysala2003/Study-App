@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Button, Grid, HStack, Heading, Image, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react'
 
 import cursor from "../../../assets/images/cursor.png"
@@ -7,7 +7,7 @@ import { RiDeleteBin7Fill } from 'react-icons/ri'
 import CourseModal from './CourseModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllCourses, getCourseLectures } from '../../../redux/actions/course'
-import { deleteCourse } from '../../../redux/actions/admin'
+import { addLecture, deleteCourse, deleteLecture } from '../../../redux/actions/admin'
 import toast from 'react-hot-toast'
 
 const Row = ({item, courseDetailsHandler, deleteButtonHandler, loading}) => {
@@ -26,8 +26,8 @@ const Row = ({item, courseDetailsHandler, deleteButtonHandler, loading}) => {
 
             <Td isNumeric >
                 <HStack justifyContent={"flex-end"} >
-                    <Button isLoading={loading} onClick={() => {
-                        courseDetailsHandler(item._id)
+                    <Button onClick={() => {
+                        courseDetailsHandler(item._id, item.title)
                     }} variant={"outline"} color={"purple.500"}>View Lectures</Button>
                     <Button isLoading={loading} onClick={() => {
                         deleteButtonHandler(item._id)
@@ -39,21 +39,34 @@ const Row = ({item, courseDetailsHandler, deleteButtonHandler, loading}) => {
 }
 const AdminCourses = () => {
     const dispatch = useDispatch();
+    const [courseId, setCourseId] = useState("")
+    const [courseTitle, setCourseTitle] = useState("")
     const {isOpen, onClose, onOpen} = useDisclosure()
-    const courseDetailsHandler = (id) => {
+    const courseDetailsHandler = (id, title) => {
+        setCourseTitle(title)
+        setCourseId(id);
         dispatch(getCourseLectures(id))
-
         onOpen();
         
     }
     const deleteButtonHandler = (id) => {
         dispatch(deleteCourse(id))
     }
-    const deleteLectureButtonHandler = (courseId, lectureId) => {
-        console.log(courseId, lectureId);
+    const deleteLectureButtonHandler = async (courseId, lectureId) => {
+        await dispatch(deleteLecture(courseId, lectureId))
+        dispatch(getCourseLectures(courseId));
     }
-    const addLectureHandler = (e, courseId, title, description, video) => {
+    const addLectureHandler = async (e, courseId, title, description, video) => {
         e.preventDefault();
+
+        const myform = new FormData();
+
+        myform.append("title", title);
+        myform.append("description", description);
+        myform.append("file", video)
+
+        await dispatch(addLecture(courseId, myform))
+        dispatch(getCourseLectures(courseId));
     }
     const {courses, lectures} = useSelector(state => state.course)
 
@@ -102,7 +115,7 @@ const AdminCourses = () => {
                     </Tbody>
                 </Table>
             </TableContainer>
-            <CourseModal loading={loading} lectures={lectures} courseTitle="React Course" isOpen={isOpen} id={"dhbcsduhisdnvbj"} addLectureHandler={addLectureHandler} deleteButtonHandler={deleteLectureButtonHandler} onClose={onClose} />
+            <CourseModal loading={loading} lectures={lectures} courseTitle={courseTitle} isOpen={isOpen} id={courseId} addLectureHandler={addLectureHandler} deleteButtonHandler={deleteLectureButtonHandler} onClose={onClose} />
         </Box>
         <Sidebar />
     </Grid>
