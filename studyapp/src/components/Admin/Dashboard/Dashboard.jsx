@@ -62,25 +62,25 @@ const Dashboard = () => {
 }, [dispatch])
   return (
     <Grid css={{cursor: `url(${cursor}), default`}} minH={"100vh"} templateColumns={["1fr", "5fr 1fr"]} >
-        {loading ?(
+        {loading?(
           <Loader />
         ): (
           <Box boxSizing='border-box'  py="20" px={["4", "0"]} >
-          <Text m={["2", "5"]} textAlign={"center"} opacity={0.5} children={`Last changed was on ${String(new Date()).split('G')[0]} `} />
+          <Text m={["2", "5"]} textAlign={"center"} opacity={0.5} children={`Last changed was on ${String(new Date(stats[11].createdAt)).split('G')[0]} `} />
 
           <Heading children="Dashboard" ml={["0", "16"]} mb="16" textAlign={["center", "left"]} />
 
           <Stack direction={["column", "row"]} minH={"24"} justifyContent={"space-evenly"} >
-            <Databox  title="Views" qty={123} qtyPercentage={30} profit={true} />
-            <Databox  title="Users" qty={23} qtyPercentage={78} profit={true} />
-            <Databox  title="Subscription" qty={12} qtyPercentage={30} profit={true} />
+            <Databox  title="Views" qty={viewsCount} qtyPercentage={viewsPercent} profit={viewsProfit} />
+            <Databox  title="Users" qty={userCount} qtyPercentage={userPercent} profit={userProfit} />
+            <Databox  title="Subscription" qty={subscriptionCount} qtyPercentage={subscriptionPercent} profit={subscriptionProfit} />
           </Stack>
 
           <Box borderRadius={"lg"} m={["0", "16"]} p={["0", "16"]} mt={["4", "16"]} 
           boxShadow={"-2px 0 10px rgba(107, 70, 193, 0.5)"} >
             <Heading textAlign={["center", "left"]} size={"md"} children="Views Graph" pt={["8", "0"]} ml={["0", "16"]} />
             {/* Line Graph here */}
-            <LineChart />
+            <LineChart dataArray={stats.map((item) => item.views)} />
           </Box>
 
           <Grid templateColumns={["1fr", "2fr 1fr"]}>
@@ -88,16 +88,16 @@ const Dashboard = () => {
               <Heading textAlign={["center", "left"]} size={"md"} children="Progress Bar" my={"8"} ml={["0", "16"]} />
 
               <Box>
-                <Bar profit={true} title={"Views"} value={30} />
-                <Bar profit={false} title={"Users"} value={78} />
-                <Bar profit={true} title={"Subscription"} value={20} />
+                <Bar profit={viewsProfit} title={"Views"} value={viewsPercent} />
+                <Bar profit={userProfit} title={"Users"} value={userPercent} />
+                <Bar profit={subscriptionProfit} title={"Subscription"} value={subscriptionPercent} />
               </Box>
             </Box>
 
             <Box p={["0", "16"]} boxSizing='border-box' py="4" >
               <Heading textAlign={"center"} size={"md"} mb="4" children="Users" /> 
               {/* Doughnut Graph */}
-              <DoughnutChart />
+              <DoughnutChart users={[subscriptionCount, userCount-subscriptionCount]} />
             </Box>
 
 
