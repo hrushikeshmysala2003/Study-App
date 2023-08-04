@@ -2,6 +2,7 @@ import {configureStore} from "@reduxjs/toolkit"
 import {profileReducer, userReducer} from "./reducers/userReducer"
 import { courseReducer } from "./reducers/courseReducer";
 import { adminReducer } from "./reducers/adminReducer";
+import { otherReducer } from "./reducers/otherReducer";
 
 const store = configureStore({
     reducer:{
@@ -9,6 +10,7 @@ const store = configureStore({
         profile: profileReducer,
         course: courseReducer,
         admin: adminReducer,
+        other: otherReducer,
     }
 });
 
