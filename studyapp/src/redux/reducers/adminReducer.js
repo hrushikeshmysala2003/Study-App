@@ -5,15 +5,15 @@ export const adminReducer = createReducer({}, {
     getAdminStatsSuccess: (state, action) => {
         state.loading = false;
         state.stats = action.payload.stats;
-        state.viewsCount = action.payload.viewCount;
-        state.subscription = action.payload.subscriptionCount;
-        state.usersCount = action.payload.usersCount;
-        state.subscriptionPercentage = action.payload.subscriptionPercentage;
-        state.viewsPercentage = action.payload.viewsPercentage;
-        state.usersPercentage = action.payload.usersPercentage;
+        state.viewsCount = action.payload.viewsCount;
+        state.subscriptionCount = action.payload.subscriptionCount;
+        state.userCount = action.payload.userCount;
+        state.subscriptionPercent = action.payload.subscriptionPercent;
+        state.viewsPercent = action.payload.viewsPercent;
+        state.userPercent = action.payload.userPercent;
         state.subscriptionProfit = action.payload.subscriptionProfit;
         state.viewsProfit = action.payload.viewsProfit;
-        state.usersProfit = action.payload.usersProfit;
+        state.userProfit = action.payload.userProfit;
 
     },
     getAdminStatsFail: (state, action) => {

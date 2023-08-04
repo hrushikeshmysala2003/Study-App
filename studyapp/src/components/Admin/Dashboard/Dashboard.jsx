@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Box, Grid, HStack, Heading, Progress, Stack, Text } from '@chakra-ui/react'
 
 import cursor from "../../../assets/images/cursor.png"
 import Sidebar from '../Sidebar'
 import { RiArrowDownLine, RiArrowUpLine } from 'react-icons/ri'
-
+import { useDispatch, useSelector } from 'react-redux'
+import toast from "react-hot-toast"
+import { getDashBoardStats } from '../../../redux/actions/admin'
+import Loader from '../../Layout/Loader/Loader'
+import { DoughnutChart, LineChart } from './Chart'
 const Databox = ({title, qty, qtyPercentage, profit}) => {
   return (
     <Box w={["full", "20%"]} boxShadow={"-2px 0 10px rgba(107, 70, 193, 0.5)"} p="8" borderRadius={"lg"} >
@@ -39,11 +43,29 @@ const Bar = ({title, value, profit}) => (
     </HStack>
   </Box>
 )
-
 const Dashboard = () => {
+  const dispatch = useDispatch()
+  const {loading,
+    stats, 
+    viewsCount,
+    subscriptionCount,
+    userCount,
+    subscriptionPercent,
+    viewsPercent,
+    userPercent,
+    subscriptionProfit,
+    viewsProfit,
+    userProfit} = useSelector( state => state.admin )
+
+  useEffect(() => {
+    dispatch(getDashBoardStats());
+}, [dispatch])
   return (
     <Grid css={{cursor: `url(${cursor}), default`}} minH={"100vh"} templateColumns={["1fr", "5fr 1fr"]} >
-        <Box boxSizing='border-box'  py="20" px={["4", "0"]} >
+        {loading ?(
+          <Loader />
+        ): (
+          <Box boxSizing='border-box'  py="20" px={["4", "0"]} >
           <Text m={["2", "5"]} textAlign={"center"} opacity={0.5} children={`Last changed was on ${String(new Date()).split('G')[0]} `} />
 
           <Heading children="Dashboard" ml={["0", "16"]} mb="16" textAlign={["center", "left"]} />
@@ -58,6 +80,7 @@ const Dashboard = () => {
           boxShadow={"-2px 0 10px rgba(107, 70, 193, 0.5)"} >
             <Heading textAlign={["center", "left"]} size={"md"} children="Views Graph" pt={["8", "0"]} ml={["0", "16"]} />
             {/* Line Graph here */}
+            <LineChart />
           </Box>
 
           <Grid templateColumns={["1fr", "2fr 1fr"]}>
@@ -74,11 +97,13 @@ const Dashboard = () => {
             <Box p={["0", "16"]} boxSizing='border-box' py="4" >
               <Heading textAlign={"center"} size={"md"} mb="4" children="Users" /> 
               {/* Doughnut Graph */}
+              <DoughnutChart />
             </Box>
 
 
           </Grid>
         </Box>
+        )}
 
         <Sidebar />
     </Grid>
