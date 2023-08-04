@@ -80,7 +80,7 @@ const Dashboard = () => {
           boxShadow={"-2px 0 10px rgba(107, 70, 193, 0.5)"} >
             <Heading textAlign={["center", "left"]} size={"md"} children="Views Graph" pt={["8", "0"]} ml={["0", "16"]} />
             {/* Line Graph here */}
-            <LineChart dataArray={stats.map((item) => item.views)} />
+            <LineChart viewsArray={stats.map((item) => item.views)} />
           </Box>
 
           <Grid templateColumns={["1fr", "2fr 1fr"]}>
