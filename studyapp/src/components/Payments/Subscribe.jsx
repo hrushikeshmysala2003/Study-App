@@ -10,7 +10,7 @@ const Subscribe = ({user}) => {
     const [key, setKey] = useState("")
 
     const {loading, error, subscriptionId} = useSelector(state => state.subscription)
-
+    const {error:courseError} = useSelector(state => state.course)
     const subscribeHandler = async() => {
         const {data} = await axios.get(`${server}/razorpaykey`)
         setKey(data.key)
@@ -19,6 +19,10 @@ const Subscribe = ({user}) => {
     useEffect(() => {
         if(error){
             toast.error(error)
+            dispatch({type: "clearError"})
+        }
+        if(courseError){
+            toast.error(courseError)
             dispatch({type: "clearError"})
         }
         if(subscriptionId){
@@ -44,10 +48,10 @@ const Subscribe = ({user}) => {
                 }
                 const razor = new window.Razorpay(options)
                 razor.open()
-            }
+            } 
             openPopUp();
         }
-    }, [dispatch, error, user.name, user.email, key, subscriptionId])
+    }, [dispatch, error, courseError ,user.name, user.email, key, subscriptionId])
   return <Container  p="16"  >
     <Heading children="Welcome" my="8" textAlign={"Center"} />
 

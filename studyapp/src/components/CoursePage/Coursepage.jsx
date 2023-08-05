@@ -1,46 +1,38 @@
 import { Box, Grid, Heading, Text, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { Children, useEffect, useState } from 'react'
 import introVideo from "../../assets/videos/intro.mp4"
-const Coursepage = () => {
-    const LectureTitle="LectureTitle";
+import { useDispatch, useSelector } from 'react-redux'
+import { Navigate, useParams } from 'react-router-dom'
+import { getCourseLectures } from '../../redux/actions/course'
+import Loader from '../Layout/Loader/Loader'
+const Coursepage = ({user}) => {
+    const dispatch = useDispatch();
+    const params = useParams();
     const [lectureNumber, setLectureNumber]=useState(0);
-    const lectures=[{
-        _id: "saddsad",
-        title: "Sample1",
-        description: "dhbclskdbs",
-        video: {
-            public_id: "kjsdblks",
+    const {lectures, loading} = useSelector(state => state.course)
+    useEffect(() => {
+        dispatch(getCourseLectures(params.id))
+    }, [dispatch, params.id])
 
-        },
-    },
-        {
-            _id: "saddsad",
-            title: "Sample2",
-            description: "dhbclskdbs",
-            video: {
-                public_id: "kjsdblks",
-    
-            },
-        },
-            {
-                _id: "saddsad",
-                title: "Sample3",
-                description: "dhbclskdbs",
-                video: {
-                    public_id: "kjsdblks",
+    if(user.role!=="admin"){
+        if(user.subscription===undefined){
+            return <Navigate to={"/subscribe"} />
+        }
         
-                },
-    }]
-
-
-  return (
-    
         
-        <Grid  padding={"4"} minH={"90vh"} templateColumns={['1fr', '3fr 1fr']}>
-        <Box>
+    }
+
+  return loading ? (
+    <Loader />
+  ) : (
+    <Grid  padding={"4"} minH={"90vh"} templateColumns={['1fr', '3fr 1fr']}>
+        
+            {lectures && lectures.length > 0 ? (
+                <>
+                <Box>
         <video
         width={"100%"}
-        src={introVideo}
+        src={lectures[lectureNumber].video.url}
         autoPlay={true}
         controls={true}
         controlsList='nodownload noremoteplay'
@@ -74,10 +66,12 @@ const Coursepage = () => {
                 ) )
             }
         </VStack>
-    </Grid>
-
-    
-    
+                </>
+            ):(
+                <Heading pt={"16"} textAlign={"center"} h={"full"} w={"full"} color={"white"} children="Lectures have been not added yet" />
+            )}
+        
+        </Grid>
   )
 }
 
