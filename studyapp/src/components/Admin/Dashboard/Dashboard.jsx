@@ -45,6 +45,13 @@ const Bar = ({title, value, profit}) => (
 )
 const Dashboard = () => {
   const dispatch = useDispatch()
+
+  useEffect( () => {
+     dispatch(getDashBoardStats());
+}, [dispatch])
+
+  let viewsArray=[];
+  
   const {loading,
     stats, 
     viewsCount,
@@ -57,9 +64,12 @@ const Dashboard = () => {
     viewsProfit,
     userProfit} = useSelector( state => state.admin )
 
-  useEffect(() => {
-    dispatch(getDashBoardStats());
-}, [dispatch])
+    if(!loading){
+      viewsArray=stats.map(item => item.views)
+    }
+
+
+    
   return (
     <Grid css={{cursor: `url(${cursor}), default`}} minH={"100vh"} templateColumns={["1fr", "5fr 1fr"]} >
         {loading?(
@@ -80,7 +90,7 @@ const Dashboard = () => {
           boxShadow={"-2px 0 10px rgba(107, 70, 193, 0.5)"} >
             <Heading textAlign={["center", "left"]} size={"md"} children="Views Graph" pt={["8", "0"]} ml={["0", "16"]} />
             {/* Line Graph here */}
-            <LineChart viewsArray={stats.map((item) => item.views)} />
+            <LineChart viewsArray={viewsArray} />
           </Box>
 
           <Grid templateColumns={["1fr", "2fr 1fr"]}>

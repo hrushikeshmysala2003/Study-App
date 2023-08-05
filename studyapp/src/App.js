@@ -104,9 +104,9 @@ function App() {
             <ResetPassword />
           </ProtectedRoute>
         } ></Route>
-        <Route path='/subscribe' element={
+        <Route  path='/subscribe' element={
               <ProtectedRoute isAuthenticated={isAuthenticated} redirect="/profile">
-                <Subscribe />
+                <Subscribe user={user} />
               </ProtectedRoute>
         } ></Route>
         <Route path='*' element={<NoteFound />} ></Route>

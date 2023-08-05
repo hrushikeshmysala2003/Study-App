@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Container, HStack, Heading, Stack, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import introVideo from "../../assets/videos/intro.mp4"
+// import introVideo from "../../assets/videos/intro.mp4"
 import { RiSecurePaymentFill } from 'react-icons/ri'
 import data from "../../assets/docs/TermsAndConditions"
 const Founder = () => (
@@ -22,7 +22,7 @@ const Founder = () => (
 const VideoPlayer = () => {
     return <Box>
         <video
-        src={introVideo}
+        src={"https://res.cloudinary.com/dwna7axtx/video/upload/v1691219098/intro_qybxye.mp4"}
         autoPlay={true}
         muted={true}
         loop

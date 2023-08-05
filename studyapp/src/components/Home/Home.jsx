@@ -6,7 +6,7 @@ import vg from "../../assets/images/bg3.jfif"
 import { CgGoogle, CgYoutube } from "react-icons/cg"
 import {SiCoursera, SiUdemy} from "react-icons/si"
 import {DiAws} from "react-icons/di"
-import introVideo from "../../assets/videos/intro.mp4"
+// import introVideo from "../../assets/videos/intro.mp4"
 const Home = () => {
   return <section className='home' >
     
@@ -48,7 +48,7 @@ const Home = () => {
 
     <div className="container2">
         <video
-        src={introVideo}
+        src={"https://res.cloudinary.com/dwna7axtx/video/upload/v1691219098/intro_qybxye.mp4"}
         autoPlay={true}
         controls={true}
         controlsList='nodownload nofullscreen noremoteplay'

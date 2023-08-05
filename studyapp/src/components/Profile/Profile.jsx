@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeFromPlaylist, updateProfilePicture } from '../../redux/actions/profile'
-import { loadUser } from '../../redux/actions/user'
+import { cancelSubscription, loadUser } from '../../redux/actions/user'
 import toast from 'react-hot-toast'
 const fileUploadStyle = {
   "&::file-selector-button": {
@@ -41,7 +41,7 @@ const Profile = ({user}) => {
   const dispatch = useDispatch();
 
   const {loading, message, error} = useSelector(state => state.profile)
-
+  const {loading:subscriptionLoading, message:subscriptionMessage, error:subscriptionError} = useSelector(state => state.subscription)
   useEffect(() => {
     if(error) {
       toast.error(error, {
@@ -56,7 +56,27 @@ const Profile = ({user}) => {
       });
       dispatch({ type: "clearMessage" })
     }
-  }, [dispatch, error, message])
+
+    if(subscriptionError){
+      toast.error(error, {
+        duration: 4000,
+      });
+      dispatch({ type: "clearError" })
+    }
+
+    if(subscriptionMessage) {
+      toast.success(message, {
+        duration: 4000,
+      });
+      dispatch({ type: "clearMessage" })
+    }
+
+  }, [dispatch, error, message, subscriptionError, subscriptionMessage])
+
+  const cancelSubscriptionHandler = async () => {
+    await dispatch(cancelSubscription());
+    dispatch(loadUser());
+  }
 
   const changeImageSubmitHandler = async (e, image) => {
     e.preventDefault();
@@ -110,7 +130,7 @@ const Profile = ({user}) => {
             {user.role !== "admin" && <HStack>
               <Text children="Subscription  " fontWeight={"bold"}  />
                 {(user.subscription && user.subscription.status === "active")?(
-                  <Button color={"red"} >Cancel Subscription</Button>
+                  <Button isLoading={subscriptionLoading} onClick={cancelSubscriptionHandler} color={"red"} >Cancel Subscription</Button>
                 ):(
                   <Link to="/subscribe" >
                     <Button size="sm" color={"aqua"} >subscribe</Button>
