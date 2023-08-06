@@ -41,7 +41,6 @@ export const logout = () => async (dispatch) => {
         const {data} = await axios.get(`${server}/logout`, {
             withCredentials: true,
         });
-        console.log(data);
         dispatch({ type: "logoutSuccess", payload: data.message })
 
     } catch (error) {
@@ -59,7 +58,6 @@ export const register = (formdata) => async (dispatch) => {
             },
             withCredentials: true,
         });
-        console.log(data);
         dispatch({ type: "registerSuccess", payload: data })
 
     } catch (error) {
